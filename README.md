@@ -1,0 +1,1 @@
+This is Gnome 2 Shell Extension.
