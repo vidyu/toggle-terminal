@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<schemalist>
+	<schema path="/org/gnome/shell/extensions/toggle_terminal/" id="org.gnome.shell.extensions.toggle_terminal" >
+		<key type="as" name="toggle-terminal">
+			<default><![CDATA[['<Super>T']]]></default>
+			<summary>The key to toggle terminal.</summary>
+		</key>
+	</schema>
+</schemalist>
