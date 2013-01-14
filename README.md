@@ -1,1 +1,1 @@
-This is Gnome 2 Shell Extension.
+This is Gnome 3 Shell Extension.
