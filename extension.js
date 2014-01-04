@@ -1,15 +1,11 @@
 const Shell   = imports.gi.Shell;
+
 const Meta = imports.gi.Meta;
+const Main = imports.ui.main;
 // const Wnck = imports.gi.Wnck;
 const Gio  = imports.gi.Gio;
-const Utils = imports.misc.extensionUtils.getCurrentExtension().imports.utils; 
-const Tweener = imports.ui.tweener;
-
-const Gettext = imports.gettext.domain('toggle_terminal@lawlessbg');
-
-const _ = Gettext.gettext;
-
-const Config = imports.misc.config;
+const Utils = imports.misc.extensionUtils.getCurrentExtension().imports.utils;
+// const Tweener = imports.ui.tweener; // Use it for effects
 
 const key_bindings = {
     'toggle-terminal': function() {
@@ -49,8 +45,8 @@ function _startTerminal(){
 }
 
 function _getWindowActor(){
-	let window =Shell.AppSystem.get_default().lookup_app('gnome-terminal.desktop').get_windows()[0];
-	global.log(window);
+	let window = Shell.AppSystem.get_default().lookup_app('gnome-terminal.desktop').get_windows()[0];
+
 	if(typeof window == 'undefined') { window = 'start';}
 	return window;
 }
@@ -61,11 +57,30 @@ function init() {
 
 function enable() {
 	for(key in key_bindings) {
-		global.display.add_keybinding(key,
-			mySettings,
-			Meta.KeyBindingFlags.NONE,
-			key_bindings[key]
-		);
+		if (Main.wm.addKeybinding && Shell.KeyBindingMode) { // introduced in 3.7.5
+            Main.wm.addKeybinding(
+				key,
+				mySettings,
+				Meta.KeyBindingFlags.NONE,
+                Shell.KeyBindingMode.NORMAL | Shell.KeyBindingMode.MESSAGE_TRAY,
+                key_bindings[key]
+			);
+		} else if (Main.wm.addKeybinding && Main.KeybindingMode) { // introduced in 3.7.2
+            Main.wm.addKeybinding(
+				key,
+				mySettings,
+				Meta.KeyBindingFlags.NONE,
+                Main.KeybindingMode.NORMAL | Main.KeybindingMode.MESSAGE_TRAY,
+                key_bindings[key]
+			);
+		} else {
+            global.display.add_keybinding(
+				key,
+				mySettings,
+				Meta.KeyBindingFlags.NONE,
+                key_bindings[key]
+			);
+		}
 	}
 	// Wnck.Screen.get_default().force_update();
 }

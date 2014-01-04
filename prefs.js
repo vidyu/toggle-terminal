@@ -1,15 +1,15 @@
 const GObject = imports.gi.GObject;
-const Gdk = imports.gi.Gdk;
+// const Gdk = imports.gi.Gdk;
 const Gtk = imports.gi.Gtk;
 
-const Utils = imports.misc.extensionUtils.getCurrentExtension().imports.utils; 
+const Utils = imports.misc.extensionUtils.getCurrentExtension().imports.utils;
 
 // End of imports;
 
 // TODO: Translation Party!
 const pretty_names = {
 	'toggle-terminal': 'Toggle Terminal'
-}
+};
 
 function init() {
 }
@@ -19,7 +19,7 @@ function append_hotkey(model, settings, name, pretty_name) {
 
 	let row = model.insert(10);
 
-	model.set(row, [0, 1, 2, 3], [name, pretty_name, 
+	model.set(row, [0, 1, 2, 3], [name, pretty_name,
 		mods, key ]);
 }
 
@@ -37,7 +37,7 @@ function buildPrefsWidget() {
 
 	let settings = Utils.getSettings();
 
-	for(key in pretty_names) {
+	for(let key in pretty_names) {
 		append_hotkey(model, settings, key, pretty_names[key]);
 	}
 
@@ -75,9 +75,9 @@ function buildPrefsWidget() {
 
 	cellrend.connect('accel-edited', function(rend, iter, key, mods) {
 		let value = Gtk.accelerator_name(key, mods);
-		
+
 		let [succ, iter ] = model.get_iter_from_string(iter);
-		
+
 		if(!succ) {
 			throw new Error("Something be broken, yo.");
 		}
@@ -100,7 +100,7 @@ function buildPrefsWidget() {
 	col.add_attribute(cellrend, 'accel-key', 3);
 
 	treeview.append_column(col);
-	
+
 	global.log("Column two created.");
 
 	let win = new Gtk.ScrolledWindow({
@@ -109,7 +109,7 @@ function buildPrefsWidget() {
 	win.add(treeview);
 
 	global.log("ScrolledWindow created.");
-	
+
 	win.show_all();
 
 	global.log("Returning.");
