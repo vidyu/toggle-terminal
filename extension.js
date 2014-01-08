@@ -24,12 +24,14 @@ function _toggleTerminal() {
 		return;
 	}
 	if (win.minimized){
+		win.change_workspace(global.screen.get_active_workspace());
 		win.unminimize();
 		win.activate(global.get_current_time());
 	} else {
 		if (win.has_focus()){
 			win.minimize();
 		} else {
+			win.change_workspace(global.screen.get_active_workspace());
 			win.activate(global.get_current_time());
 		}
 	}
